@@ -2,6 +2,8 @@
     "files.associations": {
         "test.h": "c",
         "util.h": "c",
-        "net.h": "c"
+        "net.h": "c",
+        "signal.h": "c",
+        "pthread.h": "c"
     }
 }
