@@ -1,5 +1,9 @@
+#include <stdlib.h>
+
 #include "util.h"
 #include "net.h"
+
+static struct net_device *devices;
 
 struct net_device *net_device_alloc(void)
 {

@@ -1,5 +1,12 @@
+#ifndef NET_H
+#define NET_H
+
 #include <stddef.h>
 #include <stdint.h>
+
+#ifndef IFNAMSIZ
+#define IFNAMSIZ 16
+#endif
 
 #define NET_DEVICE_TYPE_NULL 0x0000
 #define NET_DEVICE_TYPE_LOOPBACK 0x0001
@@ -42,3 +49,13 @@ struct net_device_ops
     int (*transmit)(struct net_device *dev, uint16_t type, const uint8_t *data, size_t len, const void *dst);
     int (*poll)(struct net_device *dev);
 };
+
+struct net_device *net_device_alloc(void);
+int net_device_register(struct net_device *dev);
+int net_device_output(struct net_device *dev, uint16_t type, const uint8_t *data, size_t len, const void *dst);
+int net_input_handler(uint16_t type, const uint8_t *data, size_t len, struct net_device *dev);
+int net_run(void);
+void net_shutdown(void);
+int net_init(void);
+
+#endif
