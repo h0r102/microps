@@ -114,6 +114,37 @@ int net_device_output(struct net_device *dev, uint16_t type, const uint8_t *data
     return 0;
 }
 
+int net_device_add_iface(struct net_device *dev, struct net_iface *iface)
+{
+    struct net_iface *entry;
+
+    for (entry = dev->ifaces; entry; entry = entry->next)
+    {
+        if (entry->family == iface->family)
+        {
+            errorf("already exists, dev=%s, family=%d", dev->name, entry->family);
+            return -1;
+        }
+    }
+    iface->dev = dev;
+    iface->next = dev->ifaces;
+    dev->ifaces = iface;
+}
+
+struct net_iface *net_device_get_iface(struct net_device *dev, int family)
+{
+    struct net_iface *entry;
+
+    for (entry = dev->ifaces; entry; entry = entry->next)
+    {
+        if (entry->family == family)
+        {
+            return entry;
+        }
+    }
+    return NULL;
+}
+
 int net_protocol_register(uint16_t type, void (*handler)(const uint8_t *data, size_t len, struct net_device *dev))
 {
     struct net_protocol *proto;

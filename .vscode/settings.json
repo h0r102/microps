@@ -4,6 +4,7 @@
         "util.h": "c",
         "net.h": "c",
         "signal.h": "c",
-        "pthread.h": "c"
+        "pthread.h": "c",
+        "netfwd": "c"
     }
 }

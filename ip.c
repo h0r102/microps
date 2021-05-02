@@ -1,4 +1,5 @@
 #include <stdlib.h>
+#include <string.h>
 
 #include "util.h"
 #include "net.h"
@@ -94,3 +95,35 @@ char *ip_addr_ntop(ip_addr_t src, char *addr, size_t len)
     return addr;
 }
 
+
+ip_addr_t *ip_addr_pton(ip_addr_t *src, char addr, size_t len)
+{
+    char *tp;
+    tp = strtok(addr, ".");
+    if (sizeof(tp) / sizeof(tp[0]) != 4){
+        errorf("strtok() failure, size=%d", sizeof(tp) / sizeof(tp[0]));
+        return NULL;
+    }
+    
+    src = 0;
+    for (int i = 0; i < 4; i++)
+    {
+        uint8_t ip = (uint8_t)atoi(tp[i]);
+        src |= (ip_addr_t)(ip << (i * 8));
+    }
+    return src;
+}
+
+
+struct ip_iface *ip_iface_alloc(const char *unicast, const char *netmask){
+    struct ip_iface *iface;
+    
+    iface = calloc(1, sizeof(*iface));
+    if (!iface) {
+        errorf("calloc() failure");
+        return NULL;
+    }
+    NET_IFACE(iface)->family = NET_IFACE_FAMILY_IP;
+
+    
+}
